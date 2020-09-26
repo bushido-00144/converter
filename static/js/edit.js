@@ -28,39 +28,10 @@ function addTrack(track) {
     titleTdElement.appendChild(titleInputElement)
     trElement.appendChild(titleTdElement)
 
-    /*
-    let discTdElement = document.createElement("td");
-    let discInputElement = createInputElement("disc"+uniq_id, track.disc)
-    discTdElement.appendChild(discInputElement)
-    trElement.appendChild(discTdElement)
-    */
-
     let artistTdElement = document.createElement("td");
     let artistInputElement = createInputElement("artist"+uniq_id, track.artist)
     artistTdElement.appendChild(artistInputElement)
     trElement.appendChild(artistTdElement)
-
-    /*
-    let albumArtistTdElement = document.createElement("td");
-    let albumArtistInputElement = createInputElement("album_artist"+uniq_id, track.album_artist)
-    albumArtistTdElement.appendChild(albumArtistInputElement)
-    trElement.appendChild(albumArtistTdElement)
-
-    let albumTdElement = document.createElement("td");
-    let albumInputElement = createInputElement("album"+uniq_id, track.album)
-    albumTdElement.appendChild(albumInputElement)
-    trElement.appendChild(albumTdElement)
-
-    let yearTdElement = document.createElement("td");
-    let yearInputElement = createInputElement("year"+uniq_id, track.year)
-    yearTdElement.appendChild(yearInputElement)
-    trElement.appendChild(yearTdElement)
-
-    let genreTdElement = document.createElement("td");
-    let genreInputElement = createInputElement("genre"+uniq_id, track.genre)
-    genreTdElement.appendChild(genreInputElement)
-    trElement.appendChild(genreTdElement)
-    */
 
     return trElement
 }
@@ -131,39 +102,6 @@ function generateTrackMetadata(num) {
         year: document.getElementById("album-year").value,
         genre: document.getElementById("genre").value
     }
-}
-
-function setAllParam() {
-    /*
-    trElements = document.getElementById("metadata_table_tbody").children
-    let albumArtist = document.getElementById("album-artist").value
-    let year = document.getElementById("album-year").value
-    let albumName = document.getElementById("album-name").value
-    let discNum = document.getElementById("disc-num").value
-    let genre = document.getElementById("genre").value
-    for (let i = 0; i < trElements.length; i++) {
-        let albumArtistId = "album_artist_" + String(i+1)
-        let yearId = "year_" + String(i+1)
-        let albumNameId = "album_" + String(i+1)
-        let discNumId = "disc_" + String(i+1)
-        let genreId = "genre_" + String(i+1)
-        if document.getElementById(albumArtistId).value !== "" {
-            document.getElementById(albumArtistId).value = albumArtist
-        }
-        if document.getElementById(yearId).value !== "" {
-            document.getElementById(yearId).value = year
-        }
-        if document.getElementById(albumNameId).value !== "" {
-            document.getElementById(albumNameId).value = albumName
-        }
-        if document.getElementById(discNumId).value !== "" {
-            document.getElementById(discNumId).value = discNum
-        }
-        if document.getElementById(genreId).value !== "" {
-            document.getElementById(genreId).value = genre
-        }
-    }
-    */
 }
 
 function setArtistFromAlbumArtist() {
