@@ -1,6 +1,6 @@
 function parseMetadata() {
     let tracks = metadata.discs[0].tracks
-    let tableElement = document.getElementById("metadata_table_tbody")
+    let tableElement = document.getElementById("metadata-div")
     tracks.forEach(track => {
         trackTrElement = addTrack(track)
         tableElement.appendChild(trackTrElement)
@@ -9,31 +9,41 @@ function parseMetadata() {
 }
 
 function addTrack(track) {
-    let trElement = document.createElement("tr");
+    let wholeElement = document.createElement("div");
     let uniq_id = "_" + track.track.replace(/^(0)*/, "") // idをユニークにするため 複数枚ディスクある場合はディスク番号も
+    wholeElement.id = uniq_id
+    wholeElement.classList.add("columns")
 
-    let pathTdElement = document.createElement("td");
+    let trackDivElement = document.createElement("div");
+    trackDivElement.classList.add("column")
+    trackDivElement.classList.add("is-1")
+    let trackInputElement = createInputElement("track"+uniq_id, track.track)
+    trackDivElement.appendChild(trackInputElement)
+    wholeElement.appendChild(trackDivElement)
+
+    let titleDivElement = document.createElement("div");
+    titleDivElement.classList.add("column")
+    titleDivElement.classList.add("is-4")
+    let titleInputElement = createInputElement("title"+uniq_id, track.title)
+    titleDivElement.appendChild(titleInputElement)
+    wholeElement.appendChild(titleDivElement)
+
+    let artistDivElement = document.createElement("div");
+    artistDivElement.classList.add("column")
+    artistDivElement.classList.add("is-5")
+    let artistInputElement = createInputElement("artist"+uniq_id, track.artist)
+    artistDivElement.appendChild(artistInputElement)
+    wholeElement.appendChild(artistDivElement)
+
+    let pathDivElement = document.createElement("div");
+    pathDivElement.classList.add("column")
+    pathDivElement.classList.add("is-2")
     let pathInputElement = createInputElement("path"+uniq_id, track.path)
     pathInputElement.readOnly = true
-    pathTdElement.appendChild(pathInputElement)
-    trElement.appendChild(pathTdElement)
+    pathDivElement.appendChild(pathInputElement)
+    wholeElement.appendChild(pathDivElement)
 
-    let trackTdElement = document.createElement("td");
-    let trackInputElement = createInputElement("track"+uniq_id, track.track)
-    trackTdElement.appendChild(trackInputElement)
-    trElement.appendChild(trackTdElement)
-
-    let titleTdElement = document.createElement("td");
-    let titleInputElement = createInputElement("title"+uniq_id, track.title)
-    titleTdElement.appendChild(titleInputElement)
-    trElement.appendChild(titleTdElement)
-
-    let artistTdElement = document.createElement("td");
-    let artistInputElement = createInputElement("artist"+uniq_id, track.artist)
-    artistTdElement.appendChild(artistInputElement)
-    trElement.appendChild(artistTdElement)
-
-    return trElement
+    return wholeElement
 }
 
 function createInputElement(id, value) {
@@ -70,9 +80,9 @@ function sendMetadataJSON() {
 }
 
 function generateMetadataJSON() {
-    trElements = document.getElementById("metadata_table_tbody").children
+    divElements = document.getElementById("metadata-div").children
     trackMetadatas = []
-    for (let i = 0; i < trElements.length; i++) {
+    for (let i = 0; i < divElements.length; i++) {
         trackMetadatas.push(generateTrackMetadata(String(i+1)))
     }
     metadataJson = {
@@ -88,15 +98,8 @@ function generateTrackMetadata(num) {
         path: document.getElementById("path_"+num).value,
         track: document.getElementById("track_"+num).value,
         title: document.getElementById("title_"+num).value,
-        //disc: document.getElementById("disc_"+num).value,
         disc: document.getElementById("disc-num").value,
         artist: document.getElementById("artist_"+num).value,
-        /*
-        album_artist: document.getElementById("album_artist_"+num).value,
-        album: document.getElementById("album_"+num).value,
-        year: document.getElementById("year_"+num).value,
-        genre: document.getElementById("genre_"+num).value
-        */
         album_artist: document.getElementById("album-artist").value,
         album: document.getElementById("album-name").value,
         year: document.getElementById("album-year").value,
@@ -105,10 +108,10 @@ function generateTrackMetadata(num) {
 }
 
 function setArtistFromAlbumArtist() {
-    trElements = document.getElementById("metadata_table_tbody").children
+    divElements = document.getElementById("metadata-div").children
     let albumArtist = document.getElementById("album-artist").value
 
-    for (let i = 0; i < trElements.length; i++) {
+    for (let i = 0; i < divElements.length; i++) {
         let artistId = "artist_" + String(i+1)
         if (document.getElementById(artistId).value === "") {
             document.getElementById(artistId).value = albumArtist

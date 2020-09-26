@@ -3,10 +3,10 @@
     <head>
         <title>{{.Title}}</title>
         <link rel="stylesheet" href="/static/css/bulma.min.css">
-    <script>
-        var metadata = JSON.parse({{.Metadata}});
-    </script>
-    <script type="text/javascript" src="/static/js/edit.js"></script>
+        <script>
+            var metadata = JSON.parse({{.Metadata}});
+        </script>
+        <script type="text/javascript" src="/static/js/edit.js"></script>
     </head>
     <body>
         <a href="/">
@@ -56,19 +56,21 @@
             </div>
             <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
         </div>
-        <div class="container">
-            <table id="metadata_table" class="table is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>ファイル名</th>
-                        <th>トラック番号</th>
-                        <th>タイトル</th>
-                        <th>アーティスト</th>
-                    </tr>
-                </thead>
-                <tbody id="metadata_table_tbody">
-                </tbody>
-            </table>
+        <div class="columns" id="metadata-header">
+            <div class="column is-1">
+                <h2 class="subtitle">トラック番号</h2>
+            </div>
+            <div class="column is-4">
+                <h2 class="subtitle">タイトル</h2>
+            </div>
+            <div class="column is-5">
+                <h2 class="subtitle">アーティスト</h2>
+            </div>
+            <div class="column is-2">
+                <h2 class="subtitle">ファイル名</h2>
+            </div>
+        </div>
+        <div id="metadata-div">
         </div>
         <div class="columns is-mobile is-centered">
             <div class="column is-half">
