@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{.Title}}</title>
+        <link rel="stylesheet" href="/static/css/bulma.min.css">
+        <script type="text/javascript" src="/static/js/index.js"></script>
+    </head>
+    <body>
+        <div class="columns is-mobile is-centered">
+            <div class="column is-half">
+                <h1 class="is-large">Convterter</h1>
+                <form method="post" action="/upload" enctype="multipart/form-data">
+                    <fieldset>
+                        <input class="button is-primary is-light is-medium" type="file" name="file" id="upload_files" multiple="multiple" webkitdirectory>
+                        <button class="button is-link is-medium" id="submit-btn" type="button" onclick="submitFile()">アップロード</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

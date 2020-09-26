@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{.Title}}</title>
+        <link rel="stylesheet" href="/static/css/bulma.min.css">
+    <script>
+        var metadata = JSON.parse({{.Metadata}});
+    </script>
+    <script type="text/javascript" src="/static/js/edit.js"></script>
+    </head>
+    <body>
+        <a href="/">
+            <h1 class="title">Edit Tags</h2>
+        </a>
+        <div class="columns">
+            <div class="column">
+                <label class="label">アルバム名</label>
+                <input class="input" type="text" id="album-name">
+            </div>
+            <div class="column">
+                <label class="label">アルバムアーティスト</label>
+                <input class="input" type="text" id="album-artist">
+            </div>
+            <div class="column">
+                <label class="label">ディスク番号</label>
+                <input class="input" type="text" id="disc-num">
+            </div>
+            <div class="column">
+                <label class="label">発売年</label>
+                <input class="input" type="text" id="album-year">
+            </div>
+            <div class="column">
+                <label class="label">ジャンル</label>
+                <input class="input" type="text" id="genre">
+            </div>
+        </div>
+        <button class="button is-info" onclick="setArtistFromAlbumArtist()">アルバムアーティストをアーティストにセット</button>
+        <div class="modal" id="progress-modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <h3 class="title is-3 has-text-white">変換中...</h3>
+                <progress class="progress is-large is-info" max="100">60%</progress>
+            </div>
+        </div>
+        <div class="modal" id="msg-modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <article class="message" id="modal-article">
+                    <div class="message-header">
+                        <p id="modal-title"></p>
+                        <button class="delete" aria-label="delete" onclick="closeModal()"></button>
+                    </div>
+                    <div class="message-body" id="modal-msg">
+                    </div>
+                </article>
+            </div>
+            <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
+        </div>
+        <div class="container">
+            <table id="metadata_table" class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ファイル名</th>
+                        <th>トラック番号</th>
+                        <th>タイトル</th>
+                        <!--
+                        <th>ディスク番号</th>
+                        -->
+                        <th>アーティスト</th>
+                        <!--
+                        <th>アルバムアーティスト</th>
+                        <th>アルバム名</th>
+                        <th>発売年</th>
+                        <th>ジャンル</th>
+                        -->
+                    </tr>
+                </thead>
+                <tbody id="metadata_table_tbody">
+                </tbody>
+            </table>
+        </div>
+        <div class="columns is-mobile is-centered">
+            <div class="column is-half">
+                <input class="button is-primary is-medium is-fullwidth" type="button" onclick="sendMetadataJSON()" value="送信">
+            </div>
+        </div>
+    </body>
+</html>
