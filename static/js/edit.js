@@ -106,7 +106,7 @@ function generateTrackMetadata(discNum, trackNum) {
         artist: document.getElementById("artist_"+discNum+"_"+trackNum).value,
         album_artist: document.getElementById("album-artist").value,
         album: document.getElementById("album-name").value,
-        year: document.getElementById("album-year").value,
+        date: document.getElementById("album-year").value,
         genre: document.getElementById("genre").value
     }
 }
