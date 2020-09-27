@@ -23,7 +23,7 @@ function addTrack(track) {
     let trackDivElement = document.createElement("div");
     trackDivElement.classList.add("column")
     trackDivElement.classList.add("is-1")
-    let trackInputElement = createInputElement("track"+uniq_id, track.track)
+    let trackInputElement = createInputElement("track"+uniq_id, track.track + "/" + track.disc)
     trackDivElement.appendChild(trackInputElement)
     wholeElement.appendChild(trackDivElement)
 
