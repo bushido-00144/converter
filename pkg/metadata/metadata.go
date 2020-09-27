@@ -2,6 +2,7 @@ package metadata
 
 import (
 	"encoding/json"
+	"strconv"
 	"strings"
 )
 
@@ -43,16 +44,21 @@ func (m *AlbumMetadata) SetTrackMetadata(uploadedFilePath string) {
 	// uploadedFilePath はブラウザが送信したディレクトリ構造が入る
 	albumTitle := wavFilePathSlice[0]
 	wavFileName := wavFilePathSlice[len(wavFilePathSlice)-1]
-	trackNumber := strings.Split(wavFileName, " ")[0]
+	discNum, trackNumber := parseTrackNumber(wavFileName)
 	trackName := strings.TrimRight(strings.Join(strings.Split(wavFileName, " ")[1:], " "), ".wav")
 
 	trackMetadata := TrackMetadata{
 		Title: trackName,
 		Album: albumTitle,
 		Track: trackNumber,
+		Disc:  discNum,
 		Path:  uploadedFilePath,
 	}
-	m.Discs[0].Tracks = append(m.Discs[0].Tracks, trackMetadata)
+	dNum, _ := strconv.Atoi(discNum)
+	if len(m.Discs) < dNum {
+		m.AddDisc()
+	}
+	m.Discs[dNum-1].Tracks = append(m.Discs[dNum-1].Tracks, trackMetadata)
 }
 
 func (m *AlbumMetadata) JSONStr() (string, error) {
@@ -64,4 +70,14 @@ func GetMetadata(bytes []byte) (AlbumMetadata, error) {
 	albumMetadata := AlbumMetadata{}
 	err := json.Unmarshal(bytes, &albumMetadata)
 	return albumMetadata, err
+}
+
+// ディスク番号とトラック番号を返す
+func parseTrackNumber(fileName string) (string, string) {
+	trackNumber := strings.Split(fileName, " ")[0]
+	if strings.Contains(trackNumber, "-") {
+		discTrack := strings.Split(trackNumber, "-")
+		return discTrack[0], discTrack[1]
+	}
+	return "1", trackNumber
 }

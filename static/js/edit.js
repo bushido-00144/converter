@@ -1,16 +1,18 @@
 function parseMetadata() {
-    let tracks = metadata.discs[0].tracks
-    let tableElement = document.getElementById("metadata-div")
-    tracks.forEach(track => {
-        trackTrElement = addTrack(track)
-        tableElement.appendChild(trackTrElement)
+    metadata.discs.forEach(disc => {
+        let tracks = disc.tracks
+        let tableElement = document.getElementById("metadata-div")
+        tracks.forEach(track => {
+            trackTrElement = addTrack(track)
+            tableElement.appendChild(trackTrElement)
+        })
+        document.getElementById("album-name").value = tracks[0].album
     })
-    document.getElementById("album-name").value = tracks[0].album
 }
 
 function addTrack(track) {
     let wholeElement = document.createElement("div");
-    let uniq_id = "_" + track.track.replace(/^(0)*/, "") // idをユニークにするため 複数枚ディスクある場合はディスク番号も
+    let uniq_id = "_" + track.disc.replace(/^(0)*/, "") + "_" + track.track.replace(/^(0)*/, "") // idをユニークにするため
     wholeElement.id = uniq_id
     wholeElement.classList.add("columns")
 
@@ -80,26 +82,28 @@ function sendMetadataJSON() {
 }
 
 function generateMetadataJSON() {
-    divElements = document.getElementById("metadata-div").children
-    trackMetadatas = []
-    for (let i = 0; i < divElements.length; i++) {
-        trackMetadatas.push(generateTrackMetadata(String(i+1)))
+    discMetadatas = []
+    for(let discNum = 1; discNum <= metadata.discs.length; discNum++) {
+        let trackMetadatas = []
+        let totalTrackNum = metadata.discs[discNum-1].tracks.length
+        for (let trackNum = 1; trackNum <= totalTrackNum; trackNum++) {
+            trackMetadatas.push(generateTrackMetadata(String(discNum), String(trackNum)))
+        }
+        discMetadatas.push({tracks: trackMetadatas})
     }
     metadataJson = {
-        discs: [{
-            tracks: trackMetadatas
-        }]
+        discs: discMetadatas
     }
     return metadataJson
 }
 
-function generateTrackMetadata(num) {
+function generateTrackMetadata(discNum, trackNum) {
     return {
-        path: document.getElementById("path_"+num).value,
-        track: document.getElementById("track_"+num).value,
-        title: document.getElementById("title_"+num).value,
-        disc: document.getElementById("disc-num").value,
-        artist: document.getElementById("artist_"+num).value,
+        path: document.getElementById("path_"+discNum+"_"+trackNum).value,
+        track: document.getElementById("track_"+discNum+"_"+trackNum).value,
+        title: document.getElementById("title_"+discNum+"_"+trackNum).value,
+        disc: discNum,
+        artist: document.getElementById("artist_"+discNum+"_"+trackNum).value,
         album_artist: document.getElementById("album-artist").value,
         album: document.getElementById("album-name").value,
         year: document.getElementById("album-year").value,
@@ -108,13 +112,15 @@ function generateTrackMetadata(num) {
 }
 
 function setArtistFromAlbumArtist() {
-    divElements = document.getElementById("metadata-div").children
     let albumArtist = document.getElementById("album-artist").value
 
-    for (let i = 0; i < divElements.length; i++) {
-        let artistId = "artist_" + String(i+1)
-        if (document.getElementById(artistId).value === "") {
-            document.getElementById(artistId).value = albumArtist
+    for (let discNum = 1; discNum <= metadata.discs.length; discNum++) {
+        let totalTrackNum = metadata.discs[discNum-1].tracks.length
+        for (let trackNum = 1; trackNum <= totalTrackNum; trackNum++) {
+            let artistId = "artist_" + String(discNum) + "_" + String(trackNum)
+            if (document.getElementById(artistId).value === "") {
+                document.getElementById(artistId).value = albumArtist
+            }
         }
     }
 }

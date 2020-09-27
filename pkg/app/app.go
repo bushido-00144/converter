@@ -145,13 +145,15 @@ func (c *ConverterApp) ConvertHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	for i, _ := range albumMetadata.Discs[0].Tracks {
-		err = ffmpeg.ConvertTrack(&albumMetadata.Discs[0].Tracks[i], c.tmpMp3Dir, c.tmpWavDir)
-		if err != nil {
-			log.Printf("failed to convert wav: %v", err)
-			io.WriteString(w, response.CreateResponse(500, "failed to convert wav file"))
-			w.WriteHeader(http.StatusInternalServerError)
-			return
+	for i, _ := range albumMetadata.Discs {
+		for j, _ := range albumMetadata.Discs[i].Tracks {
+			err = ffmpeg.ConvertTrack(&albumMetadata.Discs[i].Tracks[j], c.tmpMp3Dir, c.tmpWavDir)
+			if err != nil {
+				log.Printf("failed to convert wav: %v", err)
+				io.WriteString(w, response.CreateResponse(500, "failed to convert wav file"))
+				w.WriteHeader(http.StatusInternalServerError)
+				return
+			}
 		}
 	}
 	zipPath, err := zip.ArchiveFiles(&albumMetadata, c.tmpMp3Dir)
