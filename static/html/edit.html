@@ -12,25 +12,27 @@
         <a href="/">
             <h1 class="title">Edit Tags</h2>
         </a>
-        <div class="columns">
-            <div class="column">
-                <label class="label">アルバム名</label>
-                <input class="input" type="text" id="album-name">
+        <section class="section">
+            <div class="columns">
+                <div class="column">
+                    <label class="label">アルバム名</label>
+                    <input class="input" type="text" id="album-name">
+                </div>
+                <div class="column">
+                    <label class="label">アルバムアーティスト</label>
+                    <input class="input" type="text" id="album-artist">
+                </div>
+                <div class="column">
+                    <label class="label">発売年</label>
+                    <input class="input" type="text" id="album-year">
+                </div>
+                <div class="column">
+                    <label class="label">ジャンル</label>
+                    <input class="input" type="text" id="genre">
+                </div>
             </div>
-            <div class="column">
-                <label class="label">アルバムアーティスト</label>
-                <input class="input" type="text" id="album-artist">
-            </div>
-            <div class="column">
-                <label class="label">発売年</label>
-                <input class="input" type="text" id="album-year">
-            </div>
-            <div class="column">
-                <label class="label">ジャンル</label>
-                <input class="input" type="text" id="genre">
-            </div>
-        </div>
-        <button class="button is-info" onclick="setArtistFromAlbumArtist()">アルバムアーティストをアーティストにセット</button>
+            <button class="button is-info" onclick="setArtistFromAlbumArtist()">アルバムアーティストをアーティストにセット</button>
+        </section>
         <div class="modal" id="progress-modal">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -52,26 +54,28 @@
             </div>
             <button class="modal-close is-large" aria-label="close" onclick="closeModal()"></button>
         </div>
-        <div class="columns" id="metadata-header">
-            <div class="column is-1">
-                <h2 class="subtitle">トラック番号</h2>
+        <section class="section">
+            <div class="columns" id="metadata-header">
+                <div class="column is-1">
+                    <h2 class="subtitle">トラック番号</h2>
+                </div>
+                <div class="column is-4">
+                    <h2 class="subtitle">タイトル</h2>
+                </div>
+                <div class="column is-5">
+                    <h2 class="subtitle">アーティスト</h2>
+                </div>
+                <div class="column is-2">
+                    <h2 class="subtitle">ファイル名</h2>
+                </div>
             </div>
-            <div class="column is-4">
-                <h2 class="subtitle">タイトル</h2>
+            <div id="metadata-div">
             </div>
-            <div class="column is-5">
-                <h2 class="subtitle">アーティスト</h2>
+            <div class="columns is-mobile is-centered">
+                <div class="column is-half">
+                    <input class="button is-primary is-medium is-fullwidth" type="button" onclick="sendMetadataJSON()" value="送信">
+                </div>
             </div>
-            <div class="column is-2">
-                <h2 class="subtitle">ファイル名</h2>
-            </div>
-        </div>
-        <div id="metadata-div">
-        </div>
-        <div class="columns is-mobile is-centered">
-            <div class="column is-half">
-                <input class="button is-primary is-medium is-fullwidth" type="button" onclick="sendMetadataJSON()" value="送信">
-            </div>
-        </div>
+        </section>
     </body>
 </html>
