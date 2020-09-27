@@ -1,6 +1,10 @@
 function parseMetadata() {
     metadata.discs.forEach(disc => {
-        let tracks = disc.tracks
+        let tracks = disc.tracks.sort((a, b) => {
+            if (a.path < b.path) {
+                return -1
+            }
+        })
         let tableElement = document.getElementById("metadata-div")
         tracks.forEach(track => {
             trackTrElement = addTrack(track)
